@@ -141,6 +141,19 @@
     transition: background 0.15s, transform 0.15s;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .coin-card:active {
+    transform: scale(0.97);
+    background: rgba(255,255,255,0.09);
+  }
+  .tv-icon {
+    flex-shrink: 0;
+    margin-left: 8px;
+    opacity: 0.35;
+    font-size: 13px;
   }
 
   .coin-card::before {
@@ -507,6 +520,11 @@ function render() {
       card = document.createElement('div');
       card.className = 'coin-card ' + (isUp ? 'up' : 'down');
       card.dataset.symbol = coin.symbol;
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', () => {
+        const tvSymbol = 'BINANCE:' + coin.symbol;
+        window.open('https://www.tradingview.com/chart/?symbol=' + tvSymbol, '_blank');
+      });
     } else {
       const wasUp = card.classList.contains('up');
       const nowUp = isUp;
@@ -540,6 +558,7 @@ function render() {
         <div class="coin-price">${formatPrice(coin.price)}</div>
         <div class="coin-change ${isUp ? 'up' : 'down'}">${sign}${coin.change.toFixed(2)}%</div>
       </div>
+      <div class="tv-icon">📈</div>
     `;
 
     newOrder.push(card);
